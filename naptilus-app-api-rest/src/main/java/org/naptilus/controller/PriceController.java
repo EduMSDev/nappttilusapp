@@ -16,6 +16,6 @@ public class PriceController {
 
   @GetMapping("/")
   public Mono<ResponseEntity<PriceDto>> getPrice(@RequestParam LocalDate startDate, @RequestParam int productId, @RequestParam int brandId) {
-
+    return null;
   }
 }
