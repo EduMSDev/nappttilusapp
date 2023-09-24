@@ -24,8 +24,19 @@
       <artifactId>spring-boot-autoconfigure</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <version>3.1.3</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>org.naptilus</groupId>
       <artifactId>naptilus-app-api-rest</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.naptilus</groupId>
+      <artifactId>naptilus-app-infraestructure</artifactId>
       <version>0.0.1-SNAPSHOT</version>
     </dependency>
   </dependencies>

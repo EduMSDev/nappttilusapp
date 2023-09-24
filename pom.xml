@@ -26,12 +26,8 @@
   <properties>
     <java.version>17</java.version>
   </properties>
+  
   <dependencies>
-
-    <dependency>
-      <artifactId>reactor-core</artifactId>
-      <groupId>io.projectreactor</groupId>
-    </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
@@ -41,6 +37,14 @@
       <artifactId>mapstruct</artifactId>
       <version>1.5.5.Final</version>
     </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
   </dependencies>
 
   <build>
@@ -48,6 +52,30 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <annotationProcessorPaths>
+            <path>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+              <version>${lombok.version}</version>
+            </path>
+            <path>
+              <groupId>org.mapstruct</groupId>
+              <artifactId>mapstruct-processor</artifactId>
+              <version>1.5.5.Final</version>
+            </path>
+          </annotationProcessorPaths>
+          <compilerArgs>
+            <compilerArg>-Amapstruct.defaultComponentModel=spring</compilerArg>
+          </compilerArgs>
+        </configuration>
       </plugin>
     </plugins>
   </build>
