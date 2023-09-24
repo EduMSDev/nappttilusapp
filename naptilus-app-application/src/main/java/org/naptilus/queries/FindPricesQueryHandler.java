@@ -1,21 +1,37 @@
 package org.naptilus.queries;
 
-import com.barcelo.cbe.availability.domain.model.Room;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.naptilus.domain.FindPriceFilter;
+import org.naptilus.domain.Price;
+import org.naptilus.exceptions.PriceNotFoundException;
+import org.naptilus.mappers.FindPriceQueryMapper;
+import org.naptilus.repository.H2Repository;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.annotation.Validated;
-import reactor.core.publisher.Mono;
 
-@Slf4j
 @Component
 @RequiredArgsConstructor
-@Validated
-public class FindPricesQueryHandler implements QueryHandler<FindPricesQuery, Mono<List<List<Room>>>> {
+@Slf4j
+public class FindPricesQueryHandler implements QueryHandler<FindPricesQuery, Price> {
+
+  private final H2Repository h2Repository;
+
+  private final FindPriceQueryMapper priceQueryMapper;
 
   @Override
-  public Mono<List<List<Room>>> execute(FindPricesQuery query) {
+  public Price execute(FindPricesQuery query) {
+    FindPriceFilter filter = priceQueryMapper.asPriceFilter(query);
 
+    List<Price> prices = h2Repository.findPricesByStartDateBrandIdAndProductId(filter);
+    Optional<Price> priority = prices.stream().max(Comparator.comparing(Price::getPriority));
+
+    if (priority.isPresent()) {
+      return priority.get();
+    } else {
+      throw new PriceNotFoundException(filter.getStartDate(), filter.getBrandId(), filter.getProductId());
+    }
   }
 }
